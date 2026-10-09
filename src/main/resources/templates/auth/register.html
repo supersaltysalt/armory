@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('会員登録')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="form-page">
+  <h1>会員登録</h1>
+
+  <form th:action="@{/register}" th:object="${registerForm}" method="post">
+    <label>名前
+      <input type="text" th:field="*{name}">
+      <span class="err" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </label>
+    <label>メールアドレス
+      <input type="email" th:field="*{email}">
+      <span class="err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </label>
+    <label>パスワード（8文字以上）
+      <input type="password" th:field="*{password}">
+      <span class="err" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    </label>
+    <label>パスワード（確認）
+      <input type="password" th:field="*{passwordConfirm}">
+      <span class="err" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>
+    </label>
+    <button type="submit" class="btn">登録する</button>
+  </form>
+  <p>すでに会員の方は <a th:href="@{/login}">ログイン</a></p>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

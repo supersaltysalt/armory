@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.armory.mapper.ProductMapper">
+
+  <!-- 商品検索（一覧用）：カテゴリー・キーワードは指定がなければ無視 -->
+  <select id="search" resultType="Product">
+    SELECT p.*, c.name AS category_name
+    FROM products p
+    JOIN categories c ON p.category_id = c.id
+    WHERE p.deleted_flag = FALSE
+    <if test="categoryId != null">
+      AND p.category_id = #{categoryId}
+    </if>
+    <if test="keyword != null and keyword != ''">
+      AND p.name ILIKE '%' || #{keyword} || '%'
+    </if>
+    ORDER BY p.id
+  </select>
+
+  <!-- 商品を1件取得 -->
+  <select id="findById" resultType="Product">
+    SELECT p.*, c.name AS category_name
+    FROM products p
+    JOIN categories c ON p.category_id = c.id
+    WHERE p.id = #{id} AND p.deleted_flag = FALSE
+  </select>
+
+    <!-- 商品登録：画像がなくても登録できるよう、jdbcType を明示する -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO products (category_id, name, description, price, stock, image_path)
+    VALUES (#{categoryId}, #{name}, #{description,jdbcType=VARCHAR}, #{price}, #{stock},
+            #{imagePath,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 商品更新：画像は、新しく指定されたときだけ変更する -->
+  <update id="update">
+    UPDATE products
+    <set>
+      category_id = #{categoryId},
+      name        = #{name},
+      description = #{description,jdbcType=VARCHAR},
+      price       = #{price},
+      stock       = #{stock},
+      <if test="imagePath != null">image_path = #{imagePath},</if>
+    </set>
+    WHERE id = #{id}
+  </update>
+
+  <!-- 論理削除：行は消さず、フラグだけ立てる -->
+  <update id="logicalDelete">
+    UPDATE products SET deleted_flag = TRUE WHERE id = #{id}
+  </update>
+
+  <!-- 在庫減算：在庫が足りるときだけ減らす。更新行数が 0 なら在庫不足 -->
+  <update id="decreaseStock">
+    UPDATE products
+    SET stock = stock - #{qty}
+    WHERE id = #{id} AND stock >= #{qty} AND deleted_flag = FALSE
+  </update>
+
+</mapper>

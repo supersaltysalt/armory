@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('ご注文ありがとうございます')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="page">
+  <h1>ご注文ありがとうございます</h1>
+  <p class="msg ok">注文を受け付けました。（注文番号：<b th:text="${orderId}"></b>）</p>
+  <p>
+    <a th:href="@{/orders}">注文履歴を見る</a> ／
+    <a th:href="@{/products}">買い物を続ける</a>
+  </p>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

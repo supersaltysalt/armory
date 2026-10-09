@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title} + ' | ARMORY'">ARMORY</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header th:fragment="header" class="header">
+    <a th:href="@{/}" class="logo">ARMORY</a>
+    <form th:action="@{/products}" method="get" class="search">
+      <input type="text" name="keyword" placeholder="商品名で検索">
+      <button type="submit">検索</button>
+    </form>
+	<nav>
+	  <a th:href="@{/cart}">カート(<span th:text="${cartCount}"></span>)</a>
+	  <span th:if="${loginName == null}">
+	    <a th:href="@{/login}">ログイン</a>
+	    <a th:href="@{/register}">会員登録</a>
+	  </span>
+	  <span th:if="${loginName != null}">
+	    <span class="who" th:text="${loginName}"></span>
+		<a th:if="${isAdmin}" th:href="@{/admin/products}">商品管理</a>   <!-- この行を追加 -->
+	    <a th:href="@{/orders}">注文履歴</a>
+	    <form th:action="@{/logout}" method="post" class="inline">
+	      <button type="submit" class="linkbtn">ログアウト</button>
+	    </form>
+	  </span>
+	</nav>
+  </header>
+  <footer th:fragment="footer" class="footer">
+    © ARMORY（架空のショップです。実際の購入・配送は行われません）
+  </footer>
+</body>
+</html>

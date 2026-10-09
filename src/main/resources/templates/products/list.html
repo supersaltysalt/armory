@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('商品一覧')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="container">
+  <aside class="side">
+    <h3>カテゴリー</h3>
+    <a th:href="@{/products}" th:classappend="${categoryId == null} ? 'on'">すべて</a>
+    <a th:each="c : ${categories}"
+       th:href="@{/products(categoryId=${c.id})}"
+       th:text="${c.name}"
+       th:classappend="${categoryId != null and categoryId == c.id} ? 'on'"></a>
+  </aside>
+
+  <section class="main">
+    <p class="count" th:text="${products.size()} + '件の商品'"></p>
+    <p th:if="${products.isEmpty()}">該当する商品がありません。検索条件を変えてください。</p>
+
+    <div class="grid">
+      <article class="card" th:each="p : ${products}">
+        <a th:href="@{/products/{id}(id=${p.id})}">
+          <img th:src="${p.imagePath != null} ? @{${p.imagePath}} : @{/images/noimage.svg}"
+               th:alt="${p.name}">
+        </a>
+        <a class="name" th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}"></a>
+        <div class="cat" th:text="${p.categoryName}"></div>
+        <div class="price" th:text="'¥' + ${#numbers.formatInteger(p.price, 3, 'COMMA')}"></div>
+        <div class="stock" th:text="${p.stock > 0} ? '在庫あり（残り' + ${p.stock} + '）' : '在庫切れ'"
+             th:classappend="${p.stock == 0} ? 'out'"></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

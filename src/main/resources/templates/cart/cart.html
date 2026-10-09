@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('カート')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="page">
+  <h1>ショッピングカート</h1>
+
+  <p class="msg ok" th:if="${message}" th:text="${message}"></p>
+  <p class="msg ng" th:if="${error}" th:text="${error}"></p>
+
+  <p th:if="${lines.isEmpty()}">カートは空です。<a th:href="@{/products}">商品一覧へ</a></p>
+
+  <table class="tbl" th:unless="${lines.isEmpty()}">
+    <thead>
+      <tr><th>商品</th><th>単価</th><th>数量</th><th>小計</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="l : ${lines}">
+        <td>
+          <a th:href="@{/products/{id}(id=${l.productId})}" th:text="${l.name}"></a>
+          <div class="stock out" th:unless="${l.inStock}"
+               th:text="'在庫が不足しています（残り' + ${l.stock} + '個）'"></div>
+        </td>
+        <td th:text="'¥' + ${#numbers.formatInteger(l.price, 3, 'COMMA')}"></td>
+        <td>
+          <form th:action="@{/cart/update}" method="post" class="inline">
+            <input type="hidden" name="productId" th:value="${l.productId}">
+            <input type="number" name="quantity" class="qty" th:value="${l.quantity}" min="0" th:max="${l.stock}">
+            <button type="submit" class="small">変更</button>
+          </form>
+        </td>
+        <td th:text="'¥' + ${#numbers.formatInteger(l.subtotal, 3, 'COMMA')}"></td>
+        <td>
+          <form th:action="@{/cart/remove}" method="post" class="inline">
+            <input type="hidden" name="productId" th:value="${l.productId}">
+            <button type="submit" class="small">削除</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sum" th:unless="${lines.isEmpty()}">
+    合計：<b th:text="'¥' + ${#numbers.formatInteger(total, 3, 'COMMA')}"></b>
+  </div>
+
+  <p th:unless="${lines.isEmpty()}">
+    <a th:href="@{/products}">← 買い物を続ける</a>
+    <a th:if="${canCheckout}" th:href="@{/order/confirm}" class="btn">レジに進む</a>
+  </p>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

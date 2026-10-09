@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.armory.mapper.UserMapper">
+
+  <!-- ログイン時にメールアドレスで会員を探す。なければ null -->
+  <select id="findByEmail" resultType="User">
+    SELECT id, name, email, password, role, created_at
+    FROM users
+    WHERE email = #{email}
+  </select>
+
+  <!-- 会員登録時の重複チェック。true なら登録済み -->
+  <select id="existsByEmail" resultType="boolean">
+    SELECT EXISTS (SELECT 1 FROM users WHERE email = #{email})
+  </select>
+
+  <!-- 会員登録。password は BCrypt のハッシュ済みの値を渡す -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO users (name, email, password, role)
+    VALUES (#{name}, #{email}, #{password}, #{role})
+  </insert>
+
+</mapper>

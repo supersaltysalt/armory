@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('注文履歴')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="page">
+  <h1>注文履歴</h1>
+
+  <p th:if="${orders.isEmpty()}">
+    注文履歴はまだありません。<a th:href="@{/products}">商品一覧へ</a>
+  </p>
+
+  <article class="order" th:each="o : ${orders}">
+    <div class="order-head">
+      <span>注文日時：<b th:text="${#temporals.format(o.orderedAt, 'yyyy/MM/dd HH:mm')}"></b></span>
+      <span>合計：<b th:text="'¥' + ${#numbers.formatInteger(o.totalPrice, 3, 'COMMA')}"></b></span>
+      <span>注文番号：<b th:text="${o.id}"></b></span>
+      <span class="status" th:text="${o.status == 'PAID'} ? '支払い済み' : ${o.status}"></span>
+    </div>
+    <ul class="order-items">
+      <li th:each="i : ${o.items}" th:text="${i.productName} + ' × ' + ${i.quantity}"></li>
+    </ul>
+    <a th:href="@{/orders/{id}(id=${o.id})}">詳細を見る</a>
+  </article>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

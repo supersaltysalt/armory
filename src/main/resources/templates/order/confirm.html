@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('注文内容の確認')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="page">
+  <h1>注文内容の確認</h1>
+
+  <table class="tbl">
+    <thead><tr><th>商品</th><th>単価</th><th>数量</th><th>小計</th></tr></thead>
+    <tbody>
+      <tr th:each="l : ${lines}">
+        <td th:text="${l.name}"></td>
+        <td th:text="'¥' + ${#numbers.formatInteger(l.price, 3, 'COMMA')}"></td>
+        <td th:text="${l.quantity}"></td>
+        <td th:text="'¥' + ${#numbers.formatInteger(l.subtotal, 3, 'COMMA')}"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sum">
+    合計：<b th:text="'¥' + ${#numbers.formatInteger(total, 3, 'COMMA')}"></b>
+  </div>
+  <p class="msg ok">これは疑似決済です。実際の請求・配送は行われません。</p>
+
+  <form th:action="@{/order/complete}" method="post"
+        onsubmit="this.querySelector('button').disabled = true;">
+    <a th:href="@{/cart}">← カートに戻る</a>
+    <button type="submit" class="btn">注文を確定する</button>
+  </form>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

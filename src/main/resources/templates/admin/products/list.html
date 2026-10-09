@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('商品管理')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="page wide">
+  <h1>商品管理</h1>
+  <p class="msg ok" th:if="${message}" th:text="${message}"></p>
+  <p><a th:href="@{/admin/products/new}" class="btn">＋ 商品を登録する</a></p>
+
+  <table class="tbl">
+    <thead>
+      <tr><th>ID</th><th>画像</th><th>商品名</th><th>カテゴリー</th><th>価格</th><th>在庫</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="p : ${products}">
+        <td th:text="${p.id}"></td>
+        <td>
+          <img class="thumb"
+               th:src="${p.imagePath != null} ? @{${p.imagePath}} : @{/images/noimage.svg}"
+               th:alt="${p.name}">
+        </td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.categoryName}"></td>
+        <td th:text="'¥' + ${#numbers.formatInteger(p.price, 3, 'COMMA')}"></td>
+        <td th:text="${p.stock}" th:classappend="${p.stock == 0} ? 'out'"></td>
+        <td>
+          <a th:href="@{/admin/products/{id}/edit(id=${p.id})}" class="small">編集</a>
+          <form th:action="@{/admin/products/{id}/delete(id=${p.id})}" method="post" class="inline"
+                onsubmit="return confirm('この商品を削除しますか？（注文履歴は残ります）');">
+            <button type="submit" class="small">削除</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

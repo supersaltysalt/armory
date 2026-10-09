@@ -1,0 +1,63 @@
+body { margin:0; font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; background:#f2f3f3; color:#0f1111; }
+a { color:#007185; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.header { background:#131921; color:#fff; display:flex; align-items:center; gap:16px; padding:10px 20px; flex-wrap:wrap; }
+.header .logo { color:#fff; font-weight:800; font-size:22px; letter-spacing:2px; }
+.header .search { flex:1; display:flex; min-width:200px; }
+.header .search input { flex:1; padding:9px; border:0; border-radius:6px 0 0 6px; }
+.header .search button { border:0; background:#febd69; padding:0 16px; border-radius:0 6px 6px 0; cursor:pointer; font-weight:700; }
+.header nav a { color:#fff; margin-left:14px; }
+.container { max-width:1200px; margin:16px auto; padding:0 16px; display:grid; grid-template-columns:200px 1fr; gap:16px; }
+.side { background:#fff; border-radius:8px; padding:12px; align-self:start; }
+.side a { display:block; padding:6px 4px; color:#0f1111; border-radius:4px; }
+.side a.on { font-weight:700; color:#b12704; background:#f0f2f2; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.card { background:#fff; border:1px solid #d5d9d9; border-radius:8px; padding:10px; display:flex; flex-direction:column; gap:6px; }
+.card img { width:100%; aspect-ratio:4/3; object-fit:cover; background:#eee; border-radius:6px; }
+.cat { color:#565959; font-size:13px; }
+.price { font-size:22px; }
+.price.big { font-size:30px; color:#b12704; margin:8px 0; }
+.stock { color:#007600; font-size:13px; }
+.stock.out { color:#b12704; }
+.detail { grid-template-columns:1fr 1fr; background:#fff; padding:20px; border-radius:8px; }
+.detail img { width:100%; border-radius:8px; background:#eee; }
+.btn { background:#ffd814; border:1px solid #fcd200; border-radius:20px; padding:10px 24px; cursor:pointer; font-weight:600; }
+.btn[disabled] { background:#ddd; border-color:#ccc; cursor:not-allowed; }
+.footer { text-align:center; color:#565959; font-size:12px; padding:24px; }
+@media (max-width:720px) { .container, .detail { grid-template-columns:1fr; } }
+.form-page { max-width:420px; margin:24px auto; background:#fff; padding:24px; border-radius:8px; }
+.form-page h1 { font-size:22px; margin-top:0; }
+.form-page label { display:block; margin-bottom:14px; font-size:14px; }
+.form-page input { display:block; width:100%; padding:9px; margin-top:4px; border:1px solid #a6a6a6; border-radius:4px; box-sizing:border-box; }
+.err { display:block; color:#b12704; font-size:13px; margin-top:4px; }
+.msg { padding:10px; border-radius:6px; font-size:14px; }
+.msg.ok { background:#e7f4e4; color:#1a5d1a; }
+.msg.ng { background:#fdecea; color:#b12704; }
+.inline { display:inline; }
+.linkbtn { background:none; border:0; color:#fff; cursor:pointer; font-size:inherit; margin-left:14px; padding:0; }
+.linkbtn:hover { text-decoration:underline; }
+.who { margin-left:14px; font-size:13px; color:#febd69; }
+.page { max-width:900px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; }
+.page h1 { font-size:22px; margin-top:0; }
+.tbl { width:100%; border-collapse:collapse; }
+.tbl th, .tbl td { border-bottom:1px solid #ddd; padding:10px; text-align:left; }
+.sum { text-align:right; font-size:20px; margin:16px 0; }
+.sum b { color:#b12704; }
+.qty { width:70px; padding:6px; }
+.small { padding:6px 12px; border:1px solid #a6a6a6; background:#f0f2f2; border-radius:6px; cursor:pointer; }
+.order { border:1px solid #d5d9d9; border-radius:8px; margin-bottom:14px; overflow:hidden; }
+.order-head { background:#f0f2f2; padding:10px 14px; display:flex; gap:20px; flex-wrap:wrap; font-size:14px; }
+.order-items { margin:10px 14px; padding-left:20px; }
+.order > a { display:inline-block; margin:0 14px 12px; }
+.status { color:#007600; font-weight:700; }
+.info { display:grid; grid-template-columns:120px 1fr; gap:6px 12px; margin-bottom:20px; }
+.info dt { color:#565959; }
+.info dd { margin:0; }
+.page.wide { max-width:1100px; }
+.thumb { width:64px; height:48px; object-fit:cover; border-radius:4px; background:#eee; }
+.preview { max-width:240px; border-radius:6px; margin:6px 0 14px; }
+.form-page select, .form-page textarea { display:block; width:100%; padding:9px; margin-top:4px; border:1px solid #a6a6a6; border-radius:4px; box-sizing:border-box; font-family:inherit; }
+.tbl td.out { color:#b12704; font-weight:700; }
+a.small { display:inline-block; text-decoration:none; color:#0f1111; }
+.center { text-align:center; }
+.center h1 { font-size:48px; margin-bottom:8px; }

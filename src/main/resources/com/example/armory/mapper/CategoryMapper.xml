@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.armory.mapper.CategoryMapper">
+
+  <!-- カテゴリー全件（絞り込みメニューや商品登録フォームの選択肢に使う） -->
+  <select id="findAll" resultType="Category">
+    SELECT id, name FROM categories ORDER BY id
+  </select>
+
+</mapper>

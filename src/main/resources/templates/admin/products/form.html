@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${title})}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="form-page">
+  <p><a th:href="@{/admin/products}">← 商品管理へ戻る</a></p>
+  <h1 th:text="${title}"></h1>
+
+  <form th:action="${action}" th:object="${productForm}" method="post" enctype="multipart/form-data">
+
+    <label>カテゴリー
+      <select th:field="*{categoryId}">
+        <option value="">選択してください</option>
+        <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+      </select>
+      <span class="err" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></span>
+    </label>
+
+    <label>商品名
+      <input type="text" th:field="*{name}">
+      <span class="err" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </label>
+
+    <label>説明
+      <textarea th:field="*{description}" rows="4"></textarea>
+      <span class="err" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+    </label>
+
+    <label>価格（円）
+      <input type="number" th:field="*{price}" min="0">
+      <span class="err" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+    </label>
+
+    <label>在庫数
+      <input type="number" th:field="*{stock}" min="0">
+      <span class="err" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
+    </label>
+
+    <div th:if="*{imagePath != null}">
+      現在の画像：<br>
+      <img class="preview" th:src="@{*{imagePath}}" alt="現在の画像">
+    </div>
+
+    <label>画像（JPEG・PNG・GIF・WebP、5MBまで）
+      <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp">
+      <span class="err" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+    </label>
+
+    <button type="submit" class="btn">保存する</button>
+  </form>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
